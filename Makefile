@@ -1,20 +1,20 @@
-# Project: parking
+# Project: tp_cinema
 
 OBJ  = sem_op.o shm_op.o aleatoire.o
 LINKOBJ  = $(OBJ)
-BIN  = parking entree sortie
+BIN  = cinema caisse affichage_cinema
 CFLAGS = -g #-Wall
 
-all: parking entree sortie
+all: cinema caisse affichage_cinema
 
-parking: $(LINKOBJ) shm_const.h parking.c
-	$(CC) parking.c $(LINKOBJ) -o parking $(CFLAGS)
+parking: $(LINKOBJ) shm_const.h cinema.c
+	$(CC) cinema.c $(LINKOBJ) -o cinema $(CFLAGS)
 
-sortie: $(LINKOBJ) shm_const.h sortie.c
-	$(CC) sortie.c $(LINKOBJ) -o sortie $(CFLAGS)
+sortie: $(LINKOBJ) shm_const.h affichage_cinema.c
+	$(CC) affichage_cinema.c $(LINKOBJ) -o affichage_cinema $(CFLAGS)
 
-entree: $(LINKOBJ) shm_const.h entree.c
-	$(CC) entree.c $(LINKOBJ) -o entree $(CFLAGS)
+entree: $(LINKOBJ) shm_const.h caisse.c
+	$(CC) caisse.c $(LINKOBJ) -o caisse $(CFLAGS)
 
 shm_op.o: shm_op.c shm_const.h
 	$(CC) -c shm_op.c $(CFLAGS)

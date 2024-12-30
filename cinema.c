@@ -44,8 +44,8 @@ int main(int argc, char *argv[]) {
     nombre_caisses_str = atoi(argv[1]);
     nombre_caisses = atoi(nombre_caisses_str);
     titre_film = argv[2];
-    nombre_places_parking_str = atoi(argv[3]);
-    nombre_places = atoi(nombre_places_parking_str);
+    nombre_places_str = atoi(argv[3]);
+    nombre_places = atoi(nombre_places_str);
 
     pid_caisses = malloc(nombre_caisses * sizeof(pid_t));
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     * - on crée le semaphore
     * - on crée le segment de mémoire partagé
     * - on s'attache le segment de mémoire partagé
-    * - on initialise le noombre de places de parking libres dans la shm
+    * - on initialise le nombre de places de cinéma libres dans la shm
     */
 
     /* Création sémaphore */
