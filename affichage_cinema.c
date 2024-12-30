@@ -36,7 +36,7 @@ P(semid);
   if (*mem != nombre_siège) {
   /* On écrit dans la shm */
   *mem=(*mem + 1);
-  printf("\tDans le film %s,il y a %d places\n",titre_film, *mem);
+  printf("\tPour le film %s,il y a %d places\n",titre_film, *mem);
   }
 
 /* On protège l'accès à la shm */
@@ -70,7 +70,6 @@ mem=attacher_segment_memoire(mem, &shmid);
 
 while (1) {
   attente_aleatoire(delais);
- 
   affichage_siege(mem, semid, nb_places, titre_film);
 }
 

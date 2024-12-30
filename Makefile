@@ -7,13 +7,13 @@ CFLAGS = -g #-Wall
 
 all: cinema caisse affichage_cinema
 
-parking: $(LINKOBJ) shm_const.h cinema.c
+cinema: $(LINKOBJ) shm_const.h cinema.c
 	$(CC) cinema.c $(LINKOBJ) -o cinema $(CFLAGS)
 
-sortie: $(LINKOBJ) shm_const.h affichage_cinema.c
+affichage_cinema: $(LINKOBJ) shm_const.h affichage_cinema.c
 	$(CC) affichage_cinema.c $(LINKOBJ) -o affichage_cinema $(CFLAGS)
 
-entree: $(LINKOBJ) shm_const.h caisse.c
+caisse: $(LINKOBJ) shm_const.h caisse.c
 	$(CC) caisse.c $(LINKOBJ) -o caisse $(CFLAGS)
 
 shm_op.o: shm_op.c shm_const.h
@@ -21,6 +21,7 @@ shm_op.o: shm_op.c shm_const.h
 
 sem_op.o: sem_op.c shm_const.h
 	$(CC) -c sem_op.c $(CFLAGS)
+
 
 aleatoire.o: aleatoire.c
 	$(CC) -c aleatoire.c $(CFLAGS)

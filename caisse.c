@@ -1,10 +1,7 @@
-/* caisse.c */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <time.h>
-#include "shm_op.c"
-#include "shm_const.h"
+#include <stdbool.h>
 
 /******************************************************************************/
 /*
@@ -14,46 +11,55 @@
 /******************************************************************************/
 
 extern void attente_aleatoire(unsigned int delais);
-extern int P(int semid);
-extern int V(int semid);
+extern int *attacher_segment_memoire();
+extern int place_aleatoire();
+extern int P();
+extern int V();
 
-void achat_places(int *mem, int semid) {
+bool achat_places(int *mem, int semid, int nb_places) {
+
+    bool places_attribuees = false;
+
     P(semid);
 
-    int nb_places = (random() % 7) + 1; // Nombre de places aléatoire entre 1 et 7
-
-    if (*mem >= nb_places) {
-        *mem -= nb_places;
-        printf("Caisse: %d places achetées, %d restantes.\n", nb_places, *mem);
-    } else {
-        printf("Caisse: Demande de %d places refusée, seulement %d disponibles.\n", nb_places, *mem);
-    }
+   if (*mem < place_aleatoire() && *mem == 0){
+    /*Plus de place*/
+    printf("Caisse: Plus de places disponibles. Fermeture.\n");
+    return 0;
+   }
+   else if(*mem < place_aleatoire()&& *mem > 0){
+    places_attribuees = true;
+   }
+   else{
+    *mem = *mem - place_aleatoire();
+    places_attribuees = true;
+   }
 
     V(semid);
-}
+    return places_attribuees;
+   }
+   
+   
+
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <shmid> <semid>\n", argv[0]);
-        return 1;
-    }
+
+    unsigned int  delais=1;
 
     int shmid = atoi(argv[1]);
     int semid = atoi(argv[2]);
+
     int *mem = attacher_segment_memoire(NULL, &shmid);
 
-    srandom(time(NULL) ^ (getpid() << 16)); // Initialisation du générateur aléatoire
+    attente_aleatoire(delais);
+    int places_dispo = *mem;
+    int nb_places_random = place_aleatoire();
 
-    while (1) {
-        attente_aleatoire(3);
 
-        if (*mem == 0) {
-            printf("Caisse: Plus de places disponibles. Fermeture.\n");
-            break;
-        }
-
-        achat_places(mem, semid);
-    }
-
-    return 0;
+    
+    while (1)
+  {
+    achat_places(mem, semid, nb_places_random);
+    sleep(1);
+  }
 }
