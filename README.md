@@ -14,5 +14,5 @@ SI erreur **semget: File exists**
 
 il faut faire **ipcs -s**
 puis
-=>>> **ipcrm -s <id>**
+=>>> **ipcrm -s id**
 
